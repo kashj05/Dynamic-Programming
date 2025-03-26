@@ -1,1 +1,55 @@
+public class LCS_TopDown {
+    public static void main(String[] args) {
+        String s1 = "AGGTAB";
+        String s2 = "GXTXAYB";
+        int m = s1.length();
+        int n = s2.length();
+        
+        // Create a dp table for memoization
+        int[][] dp = new int[m + 1][n + 1];
+
+        // Fill the dp table
+        lcsTopDown(s1, s2, m, n, dp);
+
+        // Print LCS using backtracking
+        String lcs = printLCS(s1, s2, m, n, dp);
+        System.out.println("Longest Common Subsequence: " + lcs);
+    }
+
+    // Top-down approach with memoization
+    private static int lcsTopDown(String s1, String s2, int m, int n, int[][] dp) {
+        // Fill dp table using bottom-up DP
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = 0; // Base case
+                } else if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1]; // Characters match
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]); // Take max
+                }
+            }
+        }
+        return dp[m][n]; // Length of LCS
+    }
+
+    // Function to reconstruct the LCS string from dp table
+    private static String printLCS(String s1, String s2, int m, int n, int[][] dp) {
+        StringBuilder lcs = new StringBuilder();
+        int i = m, j = n;
+
+        while (i > 0 && j > 0) {
+            if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                lcs.append(s1.charAt(i - 1)); // Include character in LCS
+                i--;
+                j--;
+            } else if (dp[i - 1][j] > dp[i][j - 1]) {
+                i--; // Move up
+            } else {
+                j--; // Move left
+            }
+        }
+        return lcs.reverse().toString(); // Reverse to get correct order
+    }
+}
 
