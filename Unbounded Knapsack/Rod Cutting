@@ -1,1 +1,28 @@
+Q. Given a rod of length N inches and an array of prices, price[]. price[i] denotes the value of a piece of length i. Determine the maximum value you can obtain by cutting up the whole rod and selling the pieces.
+
+public class RodCutting2D {
+    public static int rodCutting(int[] price, int n) {
+        int[][] dp = new int[n + 1][n + 1]; // dp[i][j] stores max profit using first i lengths for rod of length j
+
+        // Build dp table bottom-up
+        for (int i = 1; i <= n; i++) { // i represents rod length options (1 to n)
+            for (int j = 1; j <= n; j++) { // j represents current rod length being considered
+                if (i <= j) { // If we can make a cut of length i
+                    dp[i][j] = Math.max(dp[i - 1][j], price[i - 1] + dp[i][j - i]);
+                } else {
+                    dp[i][j] = dp[i - 1][j]; // Can't cut, take previous best
+                }
+            }
+        }
+
+        return dp[n][n]; // Maximum profit for full rod length
+    }
+
+    public static void main(String[] args) {
+        int[] price = {1, 5, 8, 9, 10, 17, 17, 20}; // Prices for rods of length 1 to 8
+        int n = price.length; // Length of the rod
+
+        System.out.println("Maximum profit: " + rodCutting(price, n));
+    }
+}
 
