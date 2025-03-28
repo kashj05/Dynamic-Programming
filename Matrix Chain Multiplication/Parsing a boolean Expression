@@ -1,0 +1,49 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class BooleanExpressionEvaluator {
+    
+    static Map<String, Integer> dp = new HashMap<>();
+
+    static int solve(String s, int i, int j, boolean isTrue) {
+        if (i > j) return 0;
+
+        if (i == j) {
+            if (isTrue) return s.charAt(i) == 't' ? 1 : 0;
+            else return s.charAt(i) == 'f' ? 1 : 0;
+        }
+
+        // Creating a unique key for memoization
+        String key = i + "_" + j + "_" + isTrue;
+        if (dp.containsKey(key)) return dp.get(key);
+
+        int ans = 0;
+        for (int k = i + 1; k < j; k += 2) {
+            int lt = solve(s, i, k - 1, true);
+            int lf = solve(s, i, k - 1, false);
+            int rt = solve(s, k + 1, j, true);
+            int rf = solve(s, k + 1, j, false);
+
+            char op = s.charAt(k);
+            if (op == '&') {
+                if (isTrue) ans += lt * rt;
+                else ans += lf * rf + lf * rt + lt * rf;
+            } else if (op == '|') {
+                if (isTrue) ans += lt * rt + lt * rf + lf * rt;
+                else ans += lf * rf;
+            } else if (op == '^') {
+                if (isTrue) ans += lt * rf + lf * rt;
+                else ans += lt * rt + lf * rf;
+            }
+        }
+
+        dp.put(key, ans); // Store computed result
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        String expression = "t|f&t^t";
+        int n = expression.length();
+        System.out.println("Ways to evaluate to true: " + solve(expression, 0, n - 1, true));
+    }
+}
