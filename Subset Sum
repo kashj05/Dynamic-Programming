@@ -44,7 +44,6 @@ class GfG {
 
         return memo[n][sum] == 1;
     }
-
     // Function to initiate the subset sum check
     static boolean isSubsetSum(int[] arr, int sum) {
         int n = arr.length;
