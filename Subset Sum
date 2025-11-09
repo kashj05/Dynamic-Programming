@@ -35,7 +35,6 @@ class GfG {
                            ? 1 : 0;
         }
         else {
-
             // Include or exclude the last element directly
             memo[n][sum] = (isSubsetSumRec(arr, n - 1, sum, memo)
                     || isSubsetSumRec(arr, n - 1, sum - arr[n - 1], memo))
@@ -53,7 +52,6 @@ class GfG {
         }
         return isSubsetSumRec(arr, n, sum, memo);
     }
-
     public static void main(String[] args) {
       
         int[] arr = { 1, 5, 3, 7, 4 };
