@@ -7,7 +7,6 @@ Explanation: There is a subset (4, 5) with sum 9.
 import java.util.Arrays;
 
 class GfG {
-
     // Recursive function to check if a subset
     // with the given sum exists
     static boolean isSubsetSumRec(int[] arr, int n, int sum,
@@ -17,17 +16,14 @@ class GfG {
         if (sum == 0) {
             return true;
         }
-
         // If no elements are left
         if (n <= 0) {
             return false;
         }
-
         // If the value is already computed, return it
         if (memo[n][sum] != -1) {
             return memo[n][sum] == 1;
         }
-
         // If the last element is greater than the sum,
         // ignore it
         if (arr[n - 1] > sum) {
@@ -40,7 +36,6 @@ class GfG {
                     || isSubsetSumRec(arr, n - 1, sum - arr[n - 1], memo))
                       ? 1 : 0;
         }
-
         return memo[n][sum] == 1;
     }
     // Function to initiate the subset sum check
