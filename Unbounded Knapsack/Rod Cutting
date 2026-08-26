@@ -14,7 +14,6 @@ public class RodCutting2D {
                 }
             }
         }
-
         return dp[n][n]; // Maximum profit for full rod length
     }
 
